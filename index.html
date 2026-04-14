@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>あなたの自然診断 | 今の心に合う癒しを見つける</title>
+  <meta name="description" content="今のあなたが、どんな自然に心惹かれているのか。いま必要な癒しの風景を、やさしく見つけるための簡易診断です。" />
+
+  <!-- ============================================================
+       Google Fonts（フォントを変更したい場合はここを修正）
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS カスタムプロパティ
+       【色を変えたい場合は、この :root {} ブロックを修正してください】
+    ============================================================ */
+    :root {
+      /* 背景・面 */
+      --color-bg:           #ffffff;   /* 全体背景：生成り白 */
+      --color-surface:      #ffffff;   /* カード背景：白 */
+      --color-surface-2:    #f6f3ec;   /* セカンダリ面：淡いベージュ */
+      --color-border:       #e8e3d8;   /* ボーダー */
+      --color-border-light: #f0ece4;   /* 薄いボーダー */
+
+      /* テキスト（すべてしっかり読める濃い色に） */
+      --color-text-main:    #3a3428;   /* メインテキスト：深い茶 */
+      --color-text-sub:     #665e52;   /* サブテキスト */
+      --color-text-light:   #9e9488;   /* 補足テキスト */
+
+      /* グリーン系（やわらかい昼の緑） */
+      --color-green:        #7a9e7e;   /* 森の緑 */
+      --color-green-mid:    #93b596;   /* 中間緑 */
+      --color-green-light:  #edf4ee;   /* 薄い緑背景 */
+      --color-green-pale:   #f4f8f4;   /* ごく淡い緑 */
+
+      /* ウォーム系（木のぬくもり） */
+      --color-warm:         #c4a07a;   /* ウォームベージュ */
+      --color-warm-mid:     #d4b48c;   /* 中間ウォーム */
+      --color-warm-light:   #faf3ea;   /* 淡いウォーム背景 */
+      --color-warm-pale:    #fdf8f3;   /* ごく淡いウォーム */
+
+      /* フォント */
+      --font-serif: 'Noto Serif JP', 'ヒラギノ明朝 Pro', serif;
+      --font-sans:  'Noto Sans JP', 'ヒラギノ角ゴ Pro', sans-serif;
+
+      /* 形・影 */
+      --radius-card:   22px;
+      --radius-btn:    50px;
+      --radius-choice: 16px;
+      --shadow-card:   0 2px 20px rgba(80, 70, 50, 0.07);
+      --shadow-btn:    0 3px 16px rgba(122, 158, 126, 0.28);
+      --transition:    0.27s ease;
+    }
+
+    /* ============================================================
+       リセット & ベース
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text-main);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.8;
+      min-height: 100vh;
+      overflow-x: hidden;
+      /* やさしい朝の光を感じる背景 */
+      background-image:
+        radial-gradient(ellipse 65% 45% at 15% 8%,  rgba(210, 235, 205, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 85% 92%, rgba(230, 210, 175, 0.12) 0%, transparent 60%);
+    }
+
+    /* ============================================================
+       背景装飾（淡い葉模様）
+    ============================================================ */
+    .bg-deco {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .bg-deco-tr {
+      top: -15px; right: -10px;
+      width: 240px; opacity: 0.05;
+      transform: rotate(15deg);
+    }
+    .bg-deco-bl {
+      bottom: -15px; left: -15px;
+      width: 260px; opacity: 0.045;
+      transform: rotate(-12deg) scaleX(-1);
+    }
+
+    /* ============================================================
+       レイアウト
+    ============================================================ */
+    #app {
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 16px 16px 60px;
+      min-height: 100vh;
+    }
+
+    /* ============================================================
+       ヘッダー（明るく・文字をしっかり読めるように）
+    ============================================================ */
+    /* ── ヘッダー：スタート・結果画面（通常サイズ） ── */
+    .site-header {
+      text-align: center;
+      margin-bottom: 24px;
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 2px 20px rgba(80,70,50,0.07);
+      border: 1px solid #f0ece4;
+    }
+
+    .header-emblem {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: #edf4ee;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .site-title {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: #2e2a22;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .site-subtitle {
+      font-size: 0.83rem;
+      color: #4a4338;
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── ヘッダー：質問中（最小化） ── */
+    body.quiz-mode .site-header {
+      padding: 10px 16px;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    body.quiz-mode .header-emblem {
+      width: 26px;
+      height: 26px;
+      margin-bottom: 0;
+      flex-shrink: 0;
+    }
+    body.quiz-mode .site-title {
+      font-size: 0.92rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 0;
+    }
+    body.quiz-mode .site-subtitle {
+      display: none;
+    }
+
+    /* ============================================================
+       カード
+    ============================================================ */
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius-card);
+      padding: 26px 24px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--color-border-light);
+    }
+
+    @media (max-width: 480px) {
+      .card  { padding: 20px 18px; }
+      #app   { padding: 12px 12px 60px; }
+    }
+
+    /* ============================================================
+       画面切り替え
+    ============================================================ */
+    .screen { display: none; }
+    .screen.active {
+      display: block;
+      animation: fadeInUp 0.48s ease both;
+    }
+
+    /* ============================================================
+       スタート画面
+    ============================================================ */
+    .start-visual {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .start-emoji {
+      display: inline-block;
+      font-size: 3.0rem;
+      animation: floatGently 4.5s ease-in-out infinite;
+    }
+
+    .start-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.18rem;
+      font-weight: 400;
+      color: var(--color-text-main);
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+      text-align: center;
+      line-height: 1.75;
+    }
+
+    .start-card-desc {
+      font-size: 0.88rem;
+      color: var(--color-text-sub);
+      line-height: 2.05;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .start-info {
+      background: var(--color-surface-2);
+      border-radius: 14px;
+      padding: 13px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 8px 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .start-info-item {
+      font-size: 0.8rem;
+      color: var(--color-text-sub);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-dot {
+      width: 6px; height: 6px;
+      background: var(--color-green-mid);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       進捗バー
+    ============================================================ -->*/
+    .progress-area { margin-bottom: 12px; }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.77rem;
+      color: var(--color-text-light);
+      margin-bottom: 7px;
+      letter-spacing: 0.04em;
+    }
+
+    .progress-track {
+      height: 5px;
+      background: var(--color-surface-2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-green), var(--color-green-mid));
+      border-radius: 10px;
+      transition: width 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================
+       質問
+    ============================================================ */
+    .question-number {
+      display: inline-block;
+      font-size: 0.74rem;
+      color: var(--color-green);
+      letter-spacing: 0.12em;
+      font-family: var(--font-serif);
+      background: var(--color-green-light);
+      border-radius: 20px;
+      padding: 3px 12px;
+      margin-bottom: 10px;
+    }
+    .q-hint {
+      font-size: 0.73rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      margin-top: -4px;
+    }
+
+    .question-text {
+      font-family: var(--font-serif);
+      font-size: 1.03rem;
+      font-weight: 400;
+      color: var(--color-text-main);
+      line-height: 1.9;
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    /* ============================================================
+       選択肢
+    ============================================================ */
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .choice-btn {
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-choice);
+      padding: 12px 15px;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: var(--color-text-main);
+      line-height: 1.6;
+      transition: all var(--transition);
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      position: relative;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .choice-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--color-green-pale), transparent 70%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .choice-btn:hover {
+      border-color: var(--color-green-mid);
+      box-shadow: 0 2px 14px rgba(122, 158, 126, 0.18);
+      transform: translateY(-1px);
+    }
+    .choice-btn:hover::after { opacity: 1; }
+    .choice-btn:active { transform: scale(0.985); }
+
+    .choice-btn.selected {
+      border-color: var(--color-green-mid);
+      background: var(--color-green-light);
+    }
+    .choice-btn.selected::after { opacity: 1; }
+
+    .choice-mark {
+      width: 22px; height: 22px; min-width: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-border);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+      transition: all var(--transition);
+      background: var(--color-surface);
+      font-size: 0.68rem;
+      color: var(--color-text-light);
+      font-family: var(--font-serif);
+      position: relative; z-index: 1;
+      flex-shrink: 0;
+    }
+    .choice-btn.selected .choice-mark {
+      background: var(--color-green-mid);
+      border-color: var(--color-green-mid);
+      color: #fff;
+    }
+
+    .choice-text {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+
+    /* ============================================================
+       ナビゲーション
+    ============================================================ */
+    .nav-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    /* 次へボタンは自動進行するので非表示 */
+    #btn-next {
+      display: none;
+    }
+    /* 戻るボタンは中央寄せ */
+    .nav-buttons {
+      justify-content: center;
+    }
+
+    /* ============================================================
+       ボタン共通
+    ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--radius-btn);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-weight: 400;
+      letter-spacing: 0.07em;
+      transition: all var(--transition);
+      text-decoration: none;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--color-green-mid);
+      outline-offset: 3px;
+    }
+
+    /* プライマリ */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-green), var(--color-green-mid));
+      color: #fff;
+      font-size: 0.91rem;
+      padding: 14px 26px;
+      flex: 1;
+      box-shadow: var(--shadow-btn);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(122, 158, 126, 0.38);
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* 戻るボタン */
+    .btn-back {
+      background: transparent;
+      color: var(--color-text-sub);
+      font-size: 0.82rem;
+      padding: 14px 15px;
+      border: 1.5px solid var(--color-border);
+      min-width: 68px;
+    }
+    .btn-back:hover { background: var(--color-surface-2); }
+
+    /* スタートボタン */
+    .btn-start {
+      background: linear-gradient(135deg, var(--color-green), var(--color-green-mid));
+      color: #fff;
+      font-size: 1.0rem;
+      padding: 16px 44px;
+      width: 100%;
+      box-shadow: var(--shadow-btn);
+      letter-spacing: 0.1em;
+    }
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(122, 158, 126, 0.38);
+    }
+
+    /* もう一度ボタン */
+    .btn-retry {
+      background: transparent;
+      color: var(--color-text-sub);
+      font-size: 0.86rem;
+      padding: 12px 28px;
+      border: 1.5px solid var(--color-border);
+    }
+    .btn-retry:hover { background: var(--color-surface-2); }
+
+    /* プレゼントボタン */
+    .btn-gift {
+      background: linear-gradient(135deg, var(--color-warm), var(--color-warm-mid));
+      color: #fff;
+      font-size: 0.9rem;
+      padding: 15px 32px;
+      width: 100%;
+      box-shadow: 0 3px 16px rgba(196, 160, 122, 0.32);
+      letter-spacing: 0.06em;
+    }
+    .btn-gift:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 7px 24px rgba(196, 160, 122, 0.42);
+    }
+
+    /* ============================================================
+       結果画面
+    ============================================================ */
+    .result-eyebrow {
+      text-align: center;
+      font-size: 0.74rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.14em;
+      margin-bottom: 8px;
+      font-family: var(--font-serif);
+    }
+
+    .result-type-icon {
+      display: block;
+      text-align: center;
+      font-size: 3.4rem;
+      margin-bottom: 10px;
+      animation: floatGently 4.5s ease-in-out infinite;
+    }
+
+    .result-type-name {
+      font-family: var(--font-serif);
+      font-size: 1.58rem;
+      font-weight: 400;
+      color: var(--color-text-main);
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .result-type-summary {
+      font-size: 0.82rem;
+      color: var(--color-text-sub);
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    .result-keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin: 18px 0 4px;
+    }
+
+    .keyword-tag {
+      background: var(--color-green-light);
+      color: var(--color-green);
+      border-radius: 20px;
+      padding: 5px 13px;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      border: 1px solid rgba(122, 158, 126, 0.2);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-border), transparent);
+      margin: 22px 0;
+    }
+
+    .result-section-label {
+      font-size: 0.73rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.12em;
+      margin-bottom: 11px;
+      font-family: var(--font-serif);
+    }
+
+    .result-message {
+      font-family: var(--font-serif);
+      font-size: 0.94rem;
+      font-weight: 300;
+      color: var(--color-text-main);
+      line-height: 2.1;
+      letter-spacing: 0.03em;
+    }
+
+    .nature-time-box {
+      background: var(--color-surface-2);
+      border-radius: 14px;
+      padding: 18px 20px;
+    }
+
+    .nature-time-text {
+      font-size: 0.86rem;
+      color: var(--color-text-sub);
+      line-height: 1.95;
+    }
+
+    .gift-area {
+      background: linear-gradient(148deg, var(--color-warm-pale), #fdf5ec);
+      border-radius: 18px;
+      padding: 26px 22px;
+      text-align: center;
+      border: 1px solid rgba(196, 160, 122, 0.2);
+    }
+
+    .gift-icon { font-size: 1.7rem; display: block; margin-bottom: 10px; }
+
+    .gift-title {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      color: var(--color-text-main);
+      margin-bottom: 8px;
+      letter-spacing: 0.06em;
+    }
+
+    .gift-desc {
+      font-size: 0.82rem;
+      color: var(--color-text-sub);
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+
+    .result-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    /* ============================================================
+       フッター
+    ============================================================ */
+    .site-footer {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 0.74rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.08em;
+    }
+
+    /* ============================================================
+       アニメーション
+    ============================================================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatGently {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-7px); }
+    }
+
+    /* ============================================================
+       スクロールバー
+    ============================================================ */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+
+    /* ============================================================
+       スマホ微調整
+    ============================================================ */
+    @media (max-width: 380px) {
+      .site-title     { font-size: 1.35rem; }
+      .question-text  { font-size: 0.97rem; }
+      .result-type-name { font-size: 1.38rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 背景装飾 SVG -->
+  <svg class="bg-deco bg-deco-tr" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M200 10C200 10 30 20 10 200C10 200 90 80 200 10Z" fill="#7a9e7e"/>
+    <path d="M180 32C180 32 50 48 25 196C25 196 112 98 180 32Z" fill="#93b596"/>
+    <path d="M112 6C112 6 20 62 18 212C18 212 86 128 112 6Z" fill="#7a9e7e" opacity="0.65"/>
+  </svg>
+  <svg class="bg-deco bg-deco-bl" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M20 210C20 210 190 200 210 20C210 20 130 140 20 210Z" fill="#7a9e7e"/>
+    <path d="M42 188C42 188 172 172 197 24C197 24 114 120 42 188Z" fill="#93b596"/>
+    <path d="M108 216C108 216 200 162 202 10C202 10 134 92 108 216Z" fill="#7a9e7e" opacity="0.65"/>
+  </svg>
+
+  <!-- ================================================================
+       アプリ本体
+  ================================================================ -->
+  <div id="app">
+
+    <!-- 共通ヘッダー -->
+    <header class="site-header">
+      <div class="header-emblem">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2C13 2 3 7 3 16C3 21 8 24 13 24C18 24 23 21 23 16C23 7 13 2 13 2Z" fill="#8aad8e" opacity="0.9"/>
+          <path d="M13 5C13 5 5 10 5 17C5 21 9 23 13 23" stroke="#6b9070" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1 class="site-title">あなたの自然診断</h1>
+      <p class="site-subtitle">
+        今のあなたが、どんな自然に心惹かれているのか。<br />
+        いま必要な癒しの風景を、<br />やさしく見つけるための簡易診断です。
+      </p>
+    </header>
+
+    <!-- ============================================================
+         スタート画面
+    ============================================================ -->
+    <section id="screen-start" class="screen active" role="main">
+      <div class="card">
+        <div class="start-visual">
+          <span class="start-emoji">🌿</span>
+        </div>
+
+        <h2 class="start-card-title">
+          今の自分に合う自然を<br />見つけてみませんか
+        </h2>
+        <p class="start-card-desc">
+          直感で答えてみてください。<br />
+          正解も不正解もありません。<br />
+          今の気持ちに、ただ素直に向き合うだけで大丈夫です。
+        </p>
+
+        <div class="start-info">
+          <span class="start-info-item"><span class="info-dot"></span>全6問</span>
+          <span class="start-info-item"><span class="info-dot"></span>各4択</span>
+          <span class="start-info-item"><span class="info-dot"></span>約2〜3分</span>
+          <span class="start-info-item"><span class="info-dot"></span>無料</span>
+        </div>
+
+        <button class="btn btn-start" onclick="startDiagnosis()">
+          診断してみる
+        </button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         質問画面
+    ============================================================ -->
+    <section id="screen-question" class="screen" role="main" aria-live="polite">
+      <div class="progress-area">
+        <div class="progress-label">
+          <span id="progress-text">1 / 6</span>
+          <span id="progress-percent">17%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:17%"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="question-number" id="q-number">Q 1</p>
+        <p class="question-text"  id="q-text">質問文</p>
+        <p class="q-hint">直感で選んでみてください</p>
+
+        <div class="choices" id="choices-area">
+          <!-- 選択肢はJSで生成 -->
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-back"    id="btn-back" onclick="goBack()">← 戻る</button>
+          <button class="btn btn-primary" id="btn-next" onclick="goNext()" disabled>次へ進む →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         結果画面
+    ============================================================ -->
+    <section id="screen-result" class="screen" role="main">
+      <div class="card">
+        <p class="result-eyebrow">あなたの自然タイプは</p>
+        <span class="result-type-icon" id="result-icon">🌊</span>
+        <h2 class="result-type-name"   id="result-name">海タイプ</h2>
+        <p class="result-type-summary" id="result-summary">広がりと解放の時間</p>
+
+        <div class="result-keywords" id="result-keywords"></div>
+
+        <div class="divider"></div>
+
+        <p class="result-section-label">今のあなたへのメッセージ</p>
+        <p class="result-message" id="result-message"></p>
+
+        <div class="divider"></div>
+
+        <div class="nature-time-box">
+          <p class="result-section-label">このタイプに合う自然の時間</p>
+          <p class="nature-time-text" id="result-nature-time"></p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- プレゼント案内エリア -->
+        <div class="gift-area">
+          <span class="gift-icon">🎁</span>
+          <p class="gift-title" id="gift-title">あなたに合う癒しの動画をプレゼント</p>
+          <p class="gift-desc"  id="gift-desc">説明文がここに入ります</p>
+          <a href="#" class="btn btn-gift" id="btn-gift" target="_blank" rel="noopener noreferrer">
+            <span id="gift-btn-text">このタイプに合う癒し動画を見る</span>
+          </a>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-retry" onclick="resetDiagnosis()">もう一度診断する</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>自然の中で、ゆっくりと。</p>
+    </footer>
+  </div><!-- /#app -->
+
+
+  <script>
+  const questionsData = [
+    {
+      text: "少し疲れた日に、いちばん心がゆるみそうなのはどんな時間ですか？",
+      choices: [
+        { text: "ただ広くひらけた景色を、ぼんやり眺める時間", scores: { sea: 3, forest: 0, star: 1, earth: 0, fire: 1 } },
+        { text: "静かな空気の中で、安心して深呼吸できる時間", scores: { sea: 0, forest: 3, star: 1, earth: 0, fire: 1 } },
+        { text: "音の少ない場所で、ひとり静かに過ごす時間", scores: { sea: 1, forest: 1, star: 3, earth: 0, fire: 0 } },
+        { text: "手を動かしながら、余計なことを考えずにいられる時間", scores: { sea: 0, forest: 0, star: 0, earth: 2, fire: 2 } },
+      ]
+    },
+    {
+      text: "朝、目を覚ましたときに近くにあったら嬉しい、〈空気感〉はどれですか？",
+      choices: [
+        { text: "やわらかく包まれるような、落ち着いた気配", scores: { sea: 0, forest: 3, star: 0, earth: 1, fire: 1 } },
+        { text: "風がふわっと通り抜ける、軽やかな気配", scores: { sea: 3, forest: 0, star: 1, earth: 0, fire: 0 } },
+        { text: "澄んでいて、少し背筋が伸びるような静けさ", scores: { sea: 1, forest: 0, star: 3, earth: 0, fire: 0 } },
+        { text: "ぬくもりがあって、今日も大丈夫と思える気配", scores: { sea: 0, forest: 1, star: 0, earth: 1, fire: 3 } },
+      ]
+    },
+    {
+      text: "何も予定のない休日、自然と選びたくなる過ごし方はどれに近いですか？",
+      choices: [
+        { text: "少し非日常を感じながら、静かに自分を見つめる", scores: { sea: 0, forest: 0, star: 3, earth: 0, fire: 1 } },
+        { text: "体や手を少し動かして、実感のある時間を過ごす", scores: { sea: 0, forest: 0, star: 0, earth: 3, fire: 1 } },
+        { text: "気持ちがひらく場所へ行って、のんびりする", scores: { sea: 3, forest: 1, star: 0, earth: 0, fire: 0 } },
+        { text: "落ち着ける場所で、ゆっくり心を整える", scores: { sea: 0, forest: 3, star: 1, earth: 0, fire: 1 } },
+      ]
+    },
+    {
+      text: "今のあなたに必要なのは、どんな〈整い方〉だと思いますか？",
+      choices: [
+        { text: "ため込んだものを流して、軽くなること", scores: { sea: 3, forest: 0, star: 1, earth: 0, fire: 0 } },
+        { text: "頭や心の奥を、静かに整理すること", scores: { sea: 0, forest: 1, star: 3, earth: 0, fire: 0 } },
+        { text: "あたたかさの中で、ただほっとすること", scores: { sea: 0, forest: 0, star: 0, earth: 1, fire: 3 } },
+        { text: "緊張をほどいて、安心すること", scores: { sea: 0, forest: 3, star: 0, earth: 1, fire: 1 } },
+      ]
+    },
+    {
+      text: "心がほっとする〈音〉のイメージに、いちばん近いのはどれですか？",
+      choices: [
+        { text: "やさしく響いて、包まれるように感じる音", scores: { sea: 0, forest: 3, star: 0, earth: 1, fire: 1 } },
+        { text: "小さく揺れていて、あたたかさを感じる音", scores: { sea: 0, forest: 0, star: 0, earth: 1, fire: 3 } },
+        { text: "一定のリズムで続いていて、力が抜けていく音", scores: { sea: 3, forest: 0, star: 1, earth: 0, fire: 0 } },
+        { text: "静けさの中に少しだけある、澄んだ音", scores: { sea: 1, forest: 1, star: 3, earth: 0, fire: 0 } },
+      ]
+    },
+    {
+      text: "いま、自分に贈るとしたら、どんな時間がいちばんしっくりきますか？",
+      choices: [
+        { text: "少し立ち止まって、本音を感じられる時間", scores: { sea: 0, forest: 0, star: 3, earth: 0, fire: 1 } },
+        { text: "気持ちを遠くまで連れていってくれるような時間", scores: { sea: 3, forest: 0, star: 1, earth: 0, fire: 0 } },
+        { text: "ぬくもりや手ざわりを感じながら過ごす時間", scores: { sea: 0, forest: 0, star: 0, earth: 2, fire: 2 } },
+        { text: "安心して「そのままでいい」と思える時間", scores: { sea: 0, forest: 3, star: 0, earth: 1, fire: 1 } },
+      ]
+    },
+  ];
+
+  const resultsData = {
+    sea: {
+      name: "海タイプ", icon: "🌊",
+      summary: "広がりと解放、深呼吸の時間",
+      keywords: ["広がり", "解放", "深呼吸", "流す", "軽くなる"],
+      message: "今のあなたは、少しだけ肩の力を抜いて、\n広い景色の中で呼吸を深くする時間が\n合っているのかもしれません。\n\n頑張ることよりも、まずは流してゆるめること。\nそんな自然の時間が、\n心を少し軽くしてくれそうです。",
+      natureTime: "海辺でただ波の音を聞く時間、水平線をぼーっと眺める時間。\n大きな青に包まれながら、深呼吸するような時間が\n今のあなたには合っているようです。",
+      giftTitle: "海の癒し動画をプレゼント",
+      giftDesc: "波の音・水平線の風景・深呼吸の瞑想風動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "海の癒し動画をのぞいてみる",
+      giftLink: "#",
+    },
+    forest: {
+      name: "森タイプ", icon: "🌲",
+      summary: "安心と静けさ、包まれる感覚",
+      keywords: ["安心", "包まれる", "静けさ", "整う", "やすらぎ"],
+      message: "今のあなたには、何かを変えることよりも、\n安心して包まれるような静かな時間が\n必要かもしれません。\n\n木々のあいだに身を置くように、\n少しずつ整っていく感覚を\n大切にしてみてください。",
+      natureTime: "森林浴や木漏れ日の中を歩くような時間。\n鳥のさえずりを聞きながら、ただ静かにいる時間が\n今のあなたをやさしく整えてくれそうです。",
+      giftTitle: "森の癒し動画をプレゼント",
+      giftDesc: "鳥のさえずり・木漏れ日・森林浴の映像など、\nあなたのタイプに合う静かな動画を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "森の癒し動画をのぞいてみる",
+      giftLink: "#",
+    },
+    star: {
+      name: "星空タイプ", icon: "✨",
+      summary: "余白と静寂、内側を見つめる時間",
+      keywords: ["余白", "神秘", "本音", "見つめ直す", "静かな内省"],
+      message: "今のあなたは、にぎやかさよりも、\n静かな余白の中で、自分の本音に触れる\n時間に惹かれているのかもしれません。\n\n急がなくて大丈夫です。\n少し立ち止まることで、\n見えてくるものがあるかもしれません。",
+      natureTime: "夜、静かな場所で星空を眺める時間。\n何も考えず、ただ広さに身を委ねるような時間が\n今のあなたの心を静かにほぐしてくれそうです。",
+      giftTitle: "星空の癒し動画をプレゼント",
+      giftDesc: "星空の映像・夜空と静かな音・\n神秘的な景色の動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "星空の癒し動画をのぞいてみる",
+      giftLink: "#",
+    },
+    earth: {
+      name: "大地タイプ", icon: "🌱",
+      summary: "土とぬくもり、足元に戻る時間",
+      keywords: ["土", "足元", "実感", "手を動かす", "現実感"],
+      message: "今のあなたには、考え続けることよりも、\n土や手ざわりのあるものに触れながら、\n足元に戻る時間が合っているのかもしれません。\n\n手を動かすことが、\n心を整えるきっかけになることもあります。",
+      natureTime: "畑の土に触れたり、草木のそばで手を動かしたりする時間。\n体を少し使いながら、自然の中に足をつける時間が\n今のあなたをじわじわと満たしてくれそうです。",
+      giftTitle: "大地の癒し動画をプレゼント",
+      giftDesc: "畑・土に触れる映像・草木や手仕事の動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "大地の癒し動画をのぞいてみる",
+      giftLink: "#",
+    },
+    fire: {
+      name: "火タイプ", icon: "🔥",
+      summary: "ぬくもりと静かな回復の時間",
+      keywords: ["ぬくもり", "回復", "再生", "灯り", "ほっとする"],
+      message: "今のあなたは、ただあたたまるような\n時間を求めているのかもしれません。\n\n焚き火を眺めるように、\n何かを急いで変えなくてもいい、\nそんな静かな再生の時間が合っていそうです。",
+      natureTime: "焚き火のそばでぼーっとする時間。\n炎の揺れを眺めながら、ただあたたかさの中にいる時間が\n今のあなたをやさしく包んでくれそうです。",
+      giftTitle: "焚き火の癒し動画をプレゼント",
+      giftDesc: "焚き火・炎の揺れ・夜の静かなぬくもり動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "焚き火の癒し動画をのぞいてみる",
+      giftLink: "#",
+    },
+  };
+
+  let currentIndex = 0;
+  let answers = new Array(questionsData.length).fill(null);
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    const t = document.getElementById(id);
+    if (t) {
+      t.classList.add('active');
+      if (id === 'screen-question') {
+        document.body.classList.add('quiz-mode');
+      } else {
+        document.body.classList.remove('quiz-mode');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  function startDiagnosis() {
+    currentIndex = 0;
+    answers = new Array(questionsData.length).fill(null);
+    renderQuestion();
+    showScreen('screen-question');
+  }
+
+  function renderQuestion() {
+    const q     = questionsData[currentIndex];
+    const total = questionsData.length;
+    const num   = currentIndex + 1;
+    const pct   = Math.round((num / total) * 100);
+
+    document.getElementById('progress-text').textContent    = `${num} / ${total}`;
+    document.getElementById('progress-percent').textContent = `${pct}%`;
+    document.getElementById('progress-fill').style.width    = `${pct}%`;
+    document.getElementById('q-number').textContent         = `Q ${num}`;
+    document.getElementById('q-text').textContent           = q.text;
+
+    document.getElementById('btn-back').style.visibility =
+      currentIndex === 0 ? 'hidden' : 'visible';
+
+    const nextBtn = document.getElementById('btn-next');
+    nextBtn.textContent = currentIndex === total - 1 ? '結果を見る' : '次へ進む →';
+    nextBtn.disabled    = answers[currentIndex] === null;
+
+    const area  = document.getElementById('choices-area');
+    area.innerHTML = '';
+    const marks = ['A', 'B', 'C', 'D'];
+
+    q.choices.forEach((choice, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn' + (answers[currentIndex] === idx ? ' selected' : '');
+      btn.setAttribute('aria-pressed', answers[currentIndex] === idx ? 'true' : 'false');
+      btn.innerHTML = `
+        <span class="choice-mark">${marks[idx]}</span>
+        <span class="choice-text">${choice.text}</span>
+      `;
+      btn.onclick = () => selectChoice(idx);
+      area.appendChild(btn);
+    });
+  }
+
+  function selectChoice(idx) {
+    answers[currentIndex] = idx;
+    document.querySelectorAll('.choice-btn').forEach((btn, i) => {
+      btn.classList.toggle('selected', i === idx);
+      btn.setAttribute('aria-pressed', i === idx ? 'true' : 'false');
+      btn.style.pointerEvents = 'none';
+    });
+    document.getElementById('btn-next').disabled = false;
+    setTimeout(function() { goNext(); }, 420);
+  }
+
+  function goNext() {
+    if (answers[currentIndex] === null) return;
+    if (currentIndex === questionsData.length - 1) {
+      showResult();
+    } else {
+      currentIndex++;
+      refreshQuestionScreen();
+    }
+  }
+
+  function goBack() {
+    if (currentIndex === 0) return;
+    currentIndex--;
+    refreshQuestionScreen();
+  }
+
+  function refreshQuestionScreen() {
+    const screen = document.getElementById('screen-question');
+    screen.classList.remove('active');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        renderQuestion();
+        screen.classList.add('active');
+      });
+    });
+  }
+
+  function showResult() {
+    const scores = { sea: 0, forest: 0, star: 0, earth: 0, fire: 0 };
+
+    questionsData.forEach((q, qi) => {
+      const ai = answers[qi];
+      if (ai !== null) {
+        const s = q.choices[ai].scores;
+        Object.keys(scores).forEach(t => { scores[t] += (s[t] || 0); });
+      }
+    });
+
+    const priority = ['sea', 'forest', 'star', 'earth', 'fire'];
+    let topType = priority[0], topScore = -1;
+    priority.forEach(t => {
+      if (scores[t] > topScore) { topScore = scores[t]; topType = t; }
+    });
+
+    const r = resultsData[topType];
+
+    document.getElementById('result-icon').textContent     = r.icon;
+    document.getElementById('result-name').textContent     = r.name;
+    document.getElementById('result-summary').textContent  = r.summary;
+
+    document.getElementById('result-keywords').innerHTML =
+      r.keywords.map(k => `<span class="keyword-tag">${k}</span>`).join('');
+
+    document.getElementById('result-message').innerHTML =
+      r.message.replace(/\n/g, '<br />');
+
+    document.getElementById('result-nature-time').innerHTML =
+      r.natureTime.replace(/\n/g, '<br />');
+
+    document.getElementById('gift-title').textContent    = r.giftTitle;
+    document.getElementById('gift-desc').innerHTML       = r.giftDesc.replace(/\n/g, '<br />');
+    document.getElementById('gift-btn-text').textContent = r.giftBtnText;
+    document.getElementById('btn-gift').href             = r.giftLink;
+
+    showScreen('screen-result');
+  }
+
+  function resetDiagnosis() {
+    currentIndex = 0;
+    answers = new Array(questionsData.length).fill(null);
+    showScreen('screen-start');
+  }
+  </script>
+</body>
+</html>
