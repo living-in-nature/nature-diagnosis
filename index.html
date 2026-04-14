@@ -777,9 +777,9 @@
     <section id="screen-result" class="screen" role="main">
       <div class="card">
         <p class="result-eyebrow">あなたの自然タイプは</p>
-        <span class="result-type-icon" id="result-icon">🌊</span>
-        <h2 class="result-type-name"   id="result-name">海タイプ</h2>
-        <p class="result-type-summary" id="result-summary">広がりと解放の時間</p>
+        <span class="result-type-icon" id="result-icon">💧</span>
+        <h2 class="result-type-name"   id="result-name">水タイプ</h2>
+        <p class="result-type-summary" id="result-summary">流れと解放の時間</p>
 
         <div class="result-keywords" id="result-keywords"></div>
 
@@ -879,15 +879,15 @@
 
   const resultsData = {
     sea: {
-      name: "海タイプ", icon: "🌊",
-      summary: "広がりと解放、深呼吸の時間",
-      keywords: ["広がり", "解放", "深呼吸", "流す", "軽くなる"],
-      message: "今のあなたは、少しだけ肩の力を抜いて、\n広い景色の中で呼吸を深くする時間が\n合っているのかもしれません。\n\n頑張ることよりも、まずは流してゆるめること。\nそんな自然の時間が、\n心を少し軽くしてくれそうです。",
-      natureTime: "海辺でただ波の音を聞く時間、水平線をぼーっと眺める時間。\n大きな青に包まれながら、深呼吸するような時間が\n今のあなたには合っているようです。",
-      giftTitle: "海の癒し動画をプレゼント",
-      giftDesc: "波の音・水平線の風景・深呼吸の瞑想風動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
-      giftBtnText: "海の癒し動画をのぞいてみる",
-      giftLink: "#",
+      name: "水タイプ", icon: "💧",
+      summary: "流れと解放、深呼吸の時間",
+      keywords: ["流れ", "解放", "深呼吸", "澄む", "軽くなる"],
+      message: "今のあなたは、少しだけ肩の力を抜いて、\n水のそばで流れに耳を澄ませるような時間が\n合っているのかもしれません。\n\n頑張ることよりも、まずは流してゆるめること。\nそんな自然の時間が、\n心を少し軽くしてくれそうです。",
+      natureTime: "渓流や湖のほとりで、水の音に耳を澄ませる時間。\n澄んだ流れのそばで深呼吸するような時間が\n今のあなたには合っているようです。",
+      giftTitle: "水辺の癒し動画をプレゼント",
+      giftDesc: "渓流のせせらぎ・湖の静けさ・水辺の風景など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftBtnText: "水辺の癒し動画をのぞいてみる",
+      giftLink: "https://youtu.be/VtQWV6pcRh8",
     },
     forest: {
       name: "森タイプ", icon: "🌲",
@@ -898,7 +898,7 @@
       giftTitle: "森の癒し動画をプレゼント",
       giftDesc: "鳥のさえずり・木漏れ日・森林浴の映像など、\nあなたのタイプに合う静かな動画を集めました。\nよかったら、のぞいてみてください。",
       giftBtnText: "森の癒し動画をのぞいてみる",
-      giftLink: "#",
+      giftLink: "https://youtu.be/_o_fD1EgMx8",
     },
     star: {
       name: "星空タイプ", icon: "✨",
@@ -909,7 +909,7 @@
       giftTitle: "星空の癒し動画をプレゼント",
       giftDesc: "星空の映像・夜空と静かな音・\n神秘的な景色の動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
       giftBtnText: "星空の癒し動画をのぞいてみる",
-      giftLink: "#",
+      giftLink: "https://youtu.be/MtBKeuzsV44",
     },
     earth: {
       name: "大地タイプ", icon: "🌱",
@@ -918,9 +918,9 @@
       message: "今のあなたには、考え続けることよりも、\n土や手ざわりのあるものに触れながら、\n足元に戻る時間が合っているのかもしれません。\n\n手を動かすことが、\n心を整えるきっかけになることもあります。",
       natureTime: "畑の土に触れたり、草木のそばで手を動かしたりする時間。\n体を少し使いながら、自然の中に足をつける時間が\n今のあなたをじわじわと満たしてくれそうです。",
       giftTitle: "大地の癒し動画をプレゼント",
-      giftDesc: "畑・土に触れる映像・草木や手仕事の動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
+      giftDesc: "新緑の風景・草木の息づかい・\n自然の中でほっとできる映像など、\nあなたのタイプに合う動画を集めました。\nよかったら、のぞいてみてください。",
       giftBtnText: "大地の癒し動画をのぞいてみる",
-      giftLink: "#",
+      giftLink: "https://youtu.be/wn04TFC6tNE",
     },
     fire: {
       name: "火タイプ", icon: "🔥",
@@ -931,7 +931,7 @@
       giftTitle: "焚き火の癒し動画をプレゼント",
       giftDesc: "焚き火・炎の揺れ・夜の静かなぬくもり動画など、\nあなたのタイプに合う映像を集めました。\nよかったら、のぞいてみてください。",
       giftBtnText: "焚き火の癒し動画をのぞいてみる",
-      giftLink: "#",
+      giftLink: "https://youtu.be/PN0ohcyn5sA",
     },
   };
 
