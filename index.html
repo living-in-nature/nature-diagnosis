@@ -896,7 +896,7 @@
       giftTitle: "森の癒し動画をプレゼント",
       giftDesc: "鳥のさえずり・木漏れ日・森林浴の映像など、\nあなたのタイプに合う静かな動画を集めました。\nよかったら、のぞいてみてください。",
       giftBtnText: "森の癒し動画をのぞいてみる",
-      giftLink: "https://youtu.be/_o_fD1EgMx8",
+      giftLink: "https://youtu.be/Trwl2_8ySeQ",
     },
     star: {
       name: "星空タイプ", icon: "✨",
@@ -1067,6 +1067,7 @@
     document.getElementById('gift-desc').innerHTML       = r.giftDesc.replace(/\n/g, '<br />');
     document.getElementById('gift-btn-text').textContent = r.giftBtnText;
     document.getElementById('btn-gift').href             = r.giftLink;
+    document.getElementById('gift-area').style.display  = 'block';
 
     showScreen('screen-result');
   }
